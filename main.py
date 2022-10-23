@@ -30,20 +30,21 @@ with open('dot.txt') as f1:
 with open('anchor.txt') as f2:
     anchor = f2.read().split()
 for i in range(len(anchor)):
+    anchor[i] = anchor[i].strip(',')
     anchor[i] = anchor[i].strip('"')
 with open('new_dot.txt','w') as f3:
 
     # 删除 锚点->其他             model 1
     # 删除 其他->锚点             model 2
     # 删除 锚点->其他 和 其他->锚点 model 3
-    model = 3
+    model = 1
 
     if model == 1:
         for dependence in dot:
             if '->' in dependence:
                 data = dependence.split()
                 package1 = data[0]
-                package2 = data[-1]
+                package2 = data[-1].strip(';')
                 if package1.strip('"') in anchor:
                     continue
             f3.write(dependence+'\n')
@@ -63,7 +64,7 @@ with open('new_dot.txt','w') as f3:
             if '->' in dependence:
                 data = dependence.split()
                 package1 = data[0]
-                package2 = data[-1]
+                package2 = data[-1].strip(';')
                 if package1.strip('"') in anchor or package2.strip('"') in anchor:
                     continue
             f3.write(dependence+'\n')
